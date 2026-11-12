@@ -75,7 +75,7 @@ A closing quote mark is a round head with a tail curling down and to the left. S
 
 ### How it got here
 
-The app started life as **Loupe** (a jeweller's magnifier), then **Rushes** and **Safelight**, all darkroom and film names. They were too precious for a tool you use twenty times a day. **Jot** stuck: short, a verb, and it's what you do with what was said. Then the mark was worked out on a few boards, one decision at a time.
+The app started life as **Loupe** (a jeweller's magnifier), then **Rushes** and **Safelight**, all darkroom and film names. They were too precious for a tool you use twenty times a day. **Jot** stuck: short, a verb, and it's what you do with what was said. Then the mark was worked out on a few boards, one decision at a time, shown here in the final cyan and ink.
 
 **1 · From j to ” and back.** Six glyphs, from most j to most quote mark, each tried as the icon, in the dark icon and in the wordmark. The long comma (version 4) was the only one that read clearly as both.
 
@@ -89,13 +89,15 @@ The app started life as **Loupe** (a jeweller's magnifier), then **Rushes** and 
 
 <img src="docs/brand/3-spacing.jpg" alt="Spacing check on the wordmark">
 
-**4 · Colour, where light ≠ dark.** In light mode the tile is always a bright colour; in dark mode the tile disappears and the marks glow on black, so the two modes never look alike on the home screen. Out of twelve pairs, **cyan and ink** (10) won.
+**4 · Type.** One sans for everything, and one mono just for timestamps and durations. Four pairings were tested on the real screens. **Onest and Martian Mono** shipped: Onest is a touch more technical, and Martian Mono is wide and squarish, like a tool.
 
-<img src="docs/brand/4-colour.jpg" alt="Twelve colour pairs for the icon and wordmark">
+<img src="docs/brand/4-type.jpg" alt="Four type pairings in light and dark">
 
-**5 · Type.** One sans for everything, one mono just for timestamps and durations. Four pairings were tested on the real screens. **Onest and Martian Mono** shipped: a touch more technical, and the mono is wide and squarish, like a tool.
+### Pull to refresh
 
-<img src="docs/brand/5-type.jpg" alt="Four type pairings in light and dark">
+The mark comes alive in the app. Pull down the list and the j splits into an opening “ and a closing ” that spread apart. Let go and a waveform plays between them, turns into words saying what the pull found, and the quotes snap shut. It's speech becoming words, which is the whole app in one gesture ([`PullQuotes.swift`](Brand/PullQuotes.swift)).
+
+<p align="center"><img src="docs/pull-to-refresh.gif" width="420" alt="Pull to refresh: quote marks pull apart, a waveform plays, then the words All caught up"></p>
 
 ## Design
 
