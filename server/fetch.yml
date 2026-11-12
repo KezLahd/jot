@@ -1,0 +1,104 @@
+name: fetch
+# Jot's cloud worker, in the private KezLahd/jot-fetcher repo at .github/workflows/fetch.yml.
+# Fetches a public post with yt-dlp, logged out (no cookies, no account). With transcribe=true it also
+# transcribes it (faster-whisper small, the same model size as the phone) and, given a device, sends
+# that iPhone a "Transcript ready" push. Everything comes back as one artifact, which Jot collects and deletes.
+run-name: ${{ inputs.id }}
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: Public post link
+        required: true
+      id:
+        description: Jot request id, used to find this run
+        required: true
+      transcribe:
+        description: Transcribe as well as fetch
+        default: "false"
+      model:
+        description: Whisper model. small is the quick first pass; large-v3-turbo is Listen again, slower and better on unclear speech
+        default: small
+      device:
+        description: APNs device token to notify (optional)
+        default: ""
+      sandbox:
+        description: Whether that token is for the APNs sandbox
+        default: "false"
+permissions:
+  contents: read
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts
+      - name: Install yt-dlp
+        run: |
+          curl -sfL https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp_linux -o yt-dlp
+          chmod +x yt-dlp
+      - name: Fetch audio (logged out)
+        id: fetch
+        env:
+          URL: ${{ inputs.url }}
+        run: |
+          mkdir out
+          set +e
+          ./yt-dlp --no-playlist --no-progress --no-warnings --ignore-config \
+            --no-cookies --no-cookies-from-browser \
+            -f 'bestaudio[ext=m4a]/bestaudio[ext=mp4]/best[ext=mp4]/bestaudio/best' \
+            -o 'out/source.%(ext)s' --write-info-json -- "$URL" 2> out/error.txt
+          status=$?
+          set -e
+          ls -la out
+          exit $status
+      - name: Pip cache
+        if: always() && (inputs.transcribe == 'true' || inputs.device != '')
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-jot-v2
+      - name: Python tools
+        if: always() && (inputs.transcribe == 'true' || inputs.device != '')
+        run: |
+          python3 -m venv .v
+          .v/bin/pip install -q --disable-pip-version-check faster-whisper 'av<16' 'pyjwt[crypto]' 'httpx[http2]' anthropic
+      - name: Whisper model cache
+        if: inputs.transcribe == 'true' && steps.fetch.outcome == 'success'
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: faster-whisper-${{ inputs.model }}-v1
+      - name: Transcribe
+        id: transcribe
+        if: inputs.transcribe == 'true' && steps.fetch.outcome == 'success'
+        env:
+          WHISPER_MODEL: ${{ inputs.model }}
+        run: .v/bin/python scripts/transcribe.py out
+      - name: Proofread (fixes misheard words, keeps what was heard)
+        if: steps.transcribe.outcome == 'success'
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: .v/bin/python scripts/cleanup.py out
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: out
+          path: out/
+          retention-days: 1
+      - name: Tell the phone
+        if: always() && inputs.device != ''
+        env:
+          APNS_KEY: ${{ secrets.APNS_KEY }}
+          APNS_KEY_ID: ${{ secrets.APNS_KEY_ID }}
+          APNS_TEAM: 8QPPD49JQ5
+          DEVICE: ${{ inputs.device }}
+          SANDBOX: ${{ inputs.sandbox }}
+          REQUEST: ${{ inputs.id }}
+          MODEL: ${{ inputs.model }}
+          FETCHED: ${{ steps.fetch.outcome }}
+          TRANSCRIBED: ${{ steps.transcribe.outcome }}
+        run: .v/bin/python scripts/push.py out

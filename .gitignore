@@ -1,0 +1,17 @@
+.DS_Store
+.build/
+.build-snap
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+# models, media and secrets never go in git
+*.bin
+*.mlmodelc/
+*.wav
+*.m4a
+*.mp4
+config.local.json
+*.env
+JotKit/Frameworks/
+tools/.phone

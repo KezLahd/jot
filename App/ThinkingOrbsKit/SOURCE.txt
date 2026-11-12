@@ -1,0 +1,3 @@
+Vendored unchanged from https://github.com/Jakubantalik/Libraries.dev
+packages/thinking-orbs/ports/ios/ThinkingOrbsKit/Sources/ThinkingOrbsKit
+at commit bfb396bf634b664aad7c72447a3825ce09cf8878 (MIT, see LICENSE.txt). Jot's wrapper is App/OrbView.swift.
