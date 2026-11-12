@@ -58,6 +58,45 @@ flowchart LR
 
 **No secrets in the code.** The GitHub token lives in the Keychain (shared with the share extension through the App Group). The APNs key lives in the Mac's login keychain or the runner's encrypted secrets. The Anthropic key comes from the environment or the keychain.
 
+## The mark: a j that's also a quote mark
+
+A closing quote mark is a round head with a tail curling down and to the left. So is a lowercase j. Jot's j is drawn as a **long comma**: the head flows straight into the tail in one outline, tilted 10°. Put one in the wordmark and it reads as a j. Put two side by side and you get ” — the app icon.
+
+<p align="center">
+  <img src="docs/icon-light.png" width="120" alt="Jot icon, light: ink quote marks on a cyan tile">
+  &nbsp;&nbsp;&nbsp;
+  <img src="docs/icon-dark.png" width="120" alt="Jot icon, dark: cyan quote marks on black">
+  &nbsp;&nbsp;&nbsp;
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/wordmark-dark.svg">
+    <img src="docs/wordmark-light.svg" width="150" alt="Jot wordmark">
+  </picture>
+</p>
+
+### How it got here
+
+The app started life as **Loupe** (a jeweller's magnifier), then **Rushes** and **Safelight**, all darkroom and film names. They were too precious for a tool you use twenty times a day. **Jot** stuck: short, a verb, and it's what you do with what was said. Then the mark was worked out on a few boards, one decision at a time.
+
+**1 · From j to ” and back.** Six glyphs, from most j to most quote mark, each tried as the icon, in the dark icon and in the wordmark. The long comma (version 4) was the only one that read clearly as both.
+
+<img src="docs/brand/1-j-to-quote.jpg" alt="Six versions of the glyph from plain j to short quote mark">
+
+**2 · One continuous outline, tilted.** The long comma redrawn so the head runs into the tail with no seam, then tried at 0°, 6°, 10° and 14°. At 10° it reads as ” and still stands up like a j.
+
+<img src="docs/brand/2-long-comma.jpg" alt="The long comma at four tilts">
+
+**3 · Spacing.** The t's crossbar reaches towards the o, so the j is pulled in to match: 6.5 units at both closest points.
+
+<img src="docs/brand/3-spacing.jpg" alt="Spacing check on the wordmark">
+
+**4 · Colour, where light ≠ dark.** In light mode the tile is always a bright colour; in dark mode the tile disappears and the marks glow on black, so the two modes never look alike on the home screen. Out of twelve pairs, **cyan and ink** (10) won.
+
+<img src="docs/brand/4-colour.jpg" alt="Twelve colour pairs for the icon and wordmark">
+
+**5 · Type.** One sans for everything, one mono just for timestamps and durations. Four pairings were tested on the real screens. **Onest and Martian Mono** shipped: a touch more technical, and the mono is wide and squarish, like a tool.
+
+<img src="docs/brand/5-type.jpg" alt="Four type pairings in light and dark">
+
 ## Design
 
 Jot is a tool: open it, see your transcripts, send one to Claude. Everything that isn't the words gets out of the way.
@@ -71,7 +110,6 @@ Jot is a tool: open it, see your transcripts, send one to Claude. Everything tha
   </tr>
 </table>
 
-- **The mark.** The j is a "long comma": a round head running into a curved tail. Two of them side by side make the closing quote mark ” on the app icon.
 - **One accent.** Cyan `#18CFFF` is only for things you act on (Paste link, Send to Claude, progress) and for timestamps. Everything else is ink and grey.
 - **Two typefaces.** [Onest](https://fonts.google.com/specimen/Onest) for all the text, [Martian Mono](https://fonts.google.com/specimen/Martian+Mono) for times and durations only. Both are open-licence and bundled.
 - **No containers.** Inline rows under hairlines, Liquid Glass only on the controls, and text set a step further in than the glass around it.
@@ -126,4 +164,6 @@ Cloud fetch is optional. Put [`server/fetch.yml`](server/fetch.yml) in a private
 
 Designed and built by [Kez](https://github.com/KezLahd) with Claude.
 
-The code is here to read and learn from. All rights reserved; ask before reusing it.
+## Licence
+
+[MIT](LICENSE). Take it, learn from it, build on it. The bundled fonts keep their SIL Open Font License, and ThinkingOrbsKit keeps its own MIT licence.
